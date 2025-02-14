@@ -1,3 +1,39 @@
+<?php
+require_once "db_connect.php";
+if (isset($_POST['submit'])) {
+    $fullname = filter_var($_POST['fullname'], FILTER_UNSAFE_RAW);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Email non valida.");
+    }
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
+
+    try {
+        // Preparazione della query SQL
+        $stmt = $connect->prepare("INSERT INTO `users` (`fullname`, `email`, `password`) VALUES (:fullname, :email, :password)");
+
+        // Binding dei parametri
+        $stmt->bindParam(':fullname', $fullname);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+
+        // Esecuzione della query
+        if ($stmt->execute()) {
+            echo "Registrazione completata con successo!";
+        } else {
+            echo "Errore durante la registrazione.";
+        }
+    } catch (PDOException $e) {
+        echo "Errore del database: " . $e->getMessage();
+    } finally {
+        // Chiudi la connessione al database
+        $connect = null;
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
