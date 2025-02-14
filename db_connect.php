@@ -13,15 +13,14 @@ try {
     $connect = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $sql = "DROP TABLE IF EXISTS users;
-            CREATE TABLE users(
-                id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-                fullname VARCHAR(255) NOT NULL,
-                email VARCHAR(255) NOT NULL,
-                password VARCHAR(255) NOT NULL
-            );";
+    // $sql = "CREATE TABLE users(
+    //             id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    //             fullname VARCHAR(255) NOT NULL,
+    //             email VARCHAR(255) NOT NULL,
+    //             password VARCHAR(255) NOT NULL
+    //         );";
 
-    $connect->exec($sql);
+    // $connect->exec($sql);
     // echo "Table users created successfully";
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();

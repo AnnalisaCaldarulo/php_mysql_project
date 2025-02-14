@@ -1,7 +1,7 @@
 <?php
 
 
-// session_start();
+session_start();
 
 // Messaggi di feedback
 $success = isset($_GET['success']);
