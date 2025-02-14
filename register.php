@@ -23,7 +23,7 @@ session_start();
 <body>
 
     <div class="container-fluid  vh-100">
-        <div class="row justify-content-center bg-warning">
+        <div class="row justify-content-center bg-warning-subtle">
             <div class="col-12 col-md-6 " id="signupWrapper">
                 <form action="/process_signup.php" method="POST" class="signupForm rounded shadow p-5 pb-2 bg-white">
                     <h1>Sign up</h1>

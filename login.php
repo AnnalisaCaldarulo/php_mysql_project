@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
 <body>
 
     <div class="container-fluid  vh-100">
-        <div class="row justify-content-center bg-warning">
+        <div class="row justify-content-center bg-warning-subtle">
             <div class="col-12 col-md-6 " id="signupWrapper">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="signupForm rounded shadow p-5 pb-2 bg-white">
                     <!-- <?php if (isset($error_msg)): ?>

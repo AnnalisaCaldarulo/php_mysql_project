@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/db_connect.php';
-
+require_once __DIR__ . "/password_validation.php";
 if (isset($_POST['submit'])) {
     session_start();
     $fullname = filter_var($_POST['fullname'], FILTER_UNSAFE_RAW);
@@ -20,7 +20,11 @@ if (isset($_POST['submit'])) {
         exit();
     }
 
-
+    if(checkPasswordValidation($password) != true){
+        header("Location: register.php"); // Reindirizza con un messaggio di errore
+        $_SESSION['error'] = "password non valida";
+        exit();
+    }
     // Validazione dell'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         // die("Email non valida.");
@@ -28,6 +32,8 @@ if (isset($_POST['submit'])) {
         $_SESSION['error'] = "email non valida";
         exit();
     }
+
+
 
     // Hash della password
     $password = password_hash($password, PASSWORD_BCRYPT);
@@ -45,7 +51,7 @@ if (isset($_POST['submit'])) {
         if ($stmt->execute()) {
             // header("Location: register.php?success=1"); // Reindirizza con un messaggio di successo
             header("Location: register.php");
-            $_SESSION['success'] = "yo";
+            $_SESSION['success'] = "Account created successfully";
 
             exit();
         } else {
