@@ -1,0 +1,42 @@
+*margin{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+#signupWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.signupForm{
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    position: relative;
+}
+.signupForm h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group input{
+    border: none;
+    width: 100%;
+    border-bottom: solid 2px grey;
+    outline: none;
+    font-size: 	16px;
+    color: #333;
+    background-color: transparent;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form-group button{
+    width: 100%;
+    display: block;
+}
