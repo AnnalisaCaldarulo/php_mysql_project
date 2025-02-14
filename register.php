@@ -3,9 +3,10 @@
 
 session_start();
 
+
 // Messaggi di feedback
-$success = isset($_GET['success']);
-$error = isset($_GET['error']);
+// $success = isset($_GET['success']);
+// $error = isset($_GET['error']);
 ?>
 
 <!doctype html>
@@ -26,10 +27,12 @@ $error = isset($_GET['error']);
             <div class="col-12 col-md-6 " id="signupWrapper">
                 <form action="/process_signup.php" method="POST" class="signupForm rounded shadow p-5 pb-2 bg-white">
                     <h1>Sign up</h1>
-                    <?php if ($success): ?>
+                    <?php if (isset($_SESSION['success'])): ?>
                         <div class="alert alert-success">Registrazione completata con successo!</div>
-                    <?php elseif ($error): ?>
-                        <div class="alert alert-danger">Errore durante la registrazione.</div>
+                        <?php unset($_SESSION['success']) ?>
+                    <?php elseif (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger"> <?php echo $_SESSION['error'] ?> </div>
+                        <?php unset($_SESSION['error']) ?>
                     <?php endif; ?>
                     <div class="mb-3 form-group">
                         <label for="fullname" class="form-label">Full name</label>
@@ -37,7 +40,7 @@ $error = isset($_GET['error']);
                     </div>
                     <div class="mb-3 form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input class="form-control" type="text"  name="email">
+                        <input class="form-control" type="text" name="email">
                     </div>
                     <div class="mb-3 form-group">
                         <label for="" class="form-label">Password</label>

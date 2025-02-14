@@ -7,12 +7,13 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
+$error_msg = '';
 if (isset($_POST['submit'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
 
     // Preparazione della query SQL
-    $stmt = $connect->prepare("SELECT * FROM `users` WHERE email = :email");
+    $stmt = $connect->prepare("SELECT * FROM `users` WHERE `email` = :email");
     $stmt->bindParam(':email', $email);
     $stmt->execute();
 
@@ -50,9 +51,9 @@ if (isset($_POST['submit'])) {
         <div class="row justify-content-center bg-warning">
             <div class="col-12 col-md-6 " id="signupWrapper">
                 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="signupForm rounded shadow p-5 pb-2 bg-white">
-                    <?php if (isset($error_msg)): ?>
+                    <!-- <?php if (isset($error_msg)): ?>
                         <div class="alert alert-danger"><?php echo $error_msg; ?></div>
-                    <?php endif; ?>
+                    <?php endif; ?> -->
                     <h1>Sign in</h1>
                     <div class="mb-3 form-group">
                         <label for="email" class="form-label">Email</label>
@@ -62,6 +63,7 @@ if (isset($_POST['submit'])) {
                         <label for="" class="form-label">Password</label>
                         <input class="form-control" type="password" required name="password">
                     </div>
+                    <?php echo "<p class='text-danger'> $error_msg</p>" ?>
                     <div class="pt-3 text-center form-group">
                         <button type="submit" name="submit" class="btn btn-warning">Sign in</button>
                     </div>
