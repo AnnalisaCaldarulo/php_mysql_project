@@ -1,10 +1,17 @@
 <?php
+require_once "checkenv.php";
 
+$env = loadEnv(__DIR__ . '/.env');
+
+echo "<pre>";
+var_dump($env['DB_PASSWORD']);
+echo "</pre>";
 $servername = "localhost";
 $username = "root";
-$password = '';
+$password = $env['DB_PASSWORD'];
 $dbname = "blogphp";
 
+echo "connesso .env";
 try {
     // Corrected connection string
     $connect = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
