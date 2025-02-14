@@ -8,7 +8,9 @@ if (isset($_POST['submit'])) {
 
     // Validazione dell'email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Email non valida.");
+        // die("Email non valida.");
+        header("Location: register.php?error=2"); // Reindirizza con un messaggio di errore
+        exit();
     }
 
     // Hash della password

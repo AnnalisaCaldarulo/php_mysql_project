@@ -2,7 +2,6 @@
 // Funzione per caricare il file .env
 function loadEnv($path)
 {
-    echo $path;
     if (!file_exists($path)) {
         throw new Exception("Il file .env non esiste.");
     }

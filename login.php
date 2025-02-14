@@ -1,3 +1,38 @@
+<?php
+require_once __DIR__ . '/db_connect.php';
+
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header("Location: contacts.php");
+    exit();
+}
+
+if (isset($_POST['submit'])) {
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $password = $_POST['password'];
+
+    // Preparazione della query SQL
+    $stmt = $connect->prepare("SELECT * FROM `users` WHERE email = :email");
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result) {
+        if (password_verify($password, $result['password'])) {
+            $_SESSION['user_id'] = $result['id'];
+            header("Location: contacts.php");
+            exit();
+        } else {
+            $error_msg = "Incorrect email or password";
+        }
+    } else {
+        $error_msg = "Incorrect email or password (fuori)";
+    }
+    $connect = null;
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -14,7 +49,10 @@
     <div class="container-fluid  vh-100">
         <div class="row justify-content-center bg-warning">
             <div class="col-12 col-md-6 " id="signupWrapper">
-                <form action="#" method="post" class="signupForm rounded shadow p-5 pb-2 bg-white">
+                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="signupForm rounded shadow p-5 pb-2 bg-white">
+                    <?php if (isset($error_msg)): ?>
+                        <div class="alert alert-danger"><?php echo $error_msg; ?></div>
+                    <?php endif; ?>
                     <h1>Sign in</h1>
                     <div class="mb-3 form-group">
                         <label for="email" class="form-label">Email</label>
@@ -25,15 +63,13 @@
                         <input class="form-control" type="password" required name="password">
                     </div>
                     <div class="pt-3 text-center form-group">
-                        <button type="submit" class="btn btn-warning">Sign in</button>
+                        <button type="submit" name="submit" class="btn btn-warning">Sign in</button>
                     </div>
                     <p class="pt-3 text-end">Don't have an account yet? <a href="register.php">Register</a></p>
                 </form>
             </div>
         </div>
     </div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

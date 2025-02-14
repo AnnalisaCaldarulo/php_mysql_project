@@ -24,7 +24,7 @@ $error = isset($_GET['error']);
     <div class="container-fluid  vh-100">
         <div class="row justify-content-center bg-warning">
             <div class="col-12 col-md-6 " id="signupWrapper">
-                <form action="process_signup.php" method="POST" class="signupForm rounded shadow p-5 pb-2 bg-white">
+                <form action="/process_signup.php" method="POST" class="signupForm rounded shadow p-5 pb-2 bg-white">
                     <h1>Sign up</h1>
                     <?php if ($success): ?>
                         <div class="alert alert-success">Registrazione completata con successo!</div>
@@ -37,7 +37,7 @@ $error = isset($_GET['error']);
                     </div>
                     <div class="mb-3 form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input class="form-control" type="email" required name="email">
+                        <input class="form-control" type="text"  name="email">
                     </div>
                     <div class="mb-3 form-group">
                         <label for="" class="form-label">Password</label>
