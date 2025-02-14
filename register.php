@@ -1,37 +1,11 @@
 <?php
-require_once "db_connect.php";
-if (isset($_POST['submit'])) {
-    $fullname = filter_var($_POST['fullname'], FILTER_UNSAFE_RAW);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Email non valida.");
-    }
-    $password = password_hash($password, PASSWORD_BCRYPT);
 
 
-    try {
-        // Preparazione della query SQL
-        $stmt = $connect->prepare("INSERT INTO `users` (`fullname`, `email`, `password`) VALUES (:fullname, :email, :password)");
+// session_start();
 
-        // Binding dei parametri
-        $stmt->bindParam(':fullname', $fullname);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-
-        // Esecuzione della query
-        if ($stmt->execute()) {
-            echo "Registrazione completata con successo!";
-        } else {
-            echo "Errore durante la registrazione.";
-        }
-    } catch (PDOException $e) {
-        echo "Errore del database: " . $e->getMessage();
-    } finally {
-        // Chiudi la connessione al database
-        $connect = null;
-    }
-}
+// Messaggi di feedback
+$success = isset($_GET['success']);
+$error = isset($_GET['error']);
 ?>
 
 <!doctype html>
@@ -50,8 +24,13 @@ if (isset($_POST['submit'])) {
     <div class="container-fluid  vh-100">
         <div class="row justify-content-center bg-warning">
             <div class="col-12 col-md-6 " id="signupWrapper">
-                <form action="#" method="post" class="signupForm rounded shadow p-5 pb-2 bg-white">
+                <form action="process_signup.php" method="POST" class="signupForm rounded shadow p-5 pb-2 bg-white">
                     <h1>Sign up</h1>
+                    <?php if ($success): ?>
+                        <div class="alert alert-success">Registrazione completata con successo!</div>
+                    <?php elseif ($error): ?>
+                        <div class="alert alert-danger">Errore durante la registrazione.</div>
+                    <?php endif; ?>
                     <div class="mb-3 form-group">
                         <label for="fullname" class="form-label">Full name</label>
                         <input class="form-control" id="fullname" type="text" name="fullname" required>
@@ -65,7 +44,7 @@ if (isset($_POST['submit'])) {
                         <input class="form-control" type="password" required name="password">
                     </div>
                     <div class="pt-3 text-center form-group">
-                        <button type="submit" class="btn btn-warning">Sign up</button>
+                        <button type="submit" name="submit" class="btn btn-warning">Sign up</button>
                     </div>
                     <p class="pt-3 text-end">Already have an account? <a href="login.php">Login</a></p>
                 </form>
